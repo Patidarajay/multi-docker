@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t ajaypati/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker-run ajaypati/react-test npm test -- --coverage
+after_success:
+  - docker build -t ajaypati/multi-client ./client
+  - docker build -t ajaypati/multi-nginx ./nginx
+  - docker build -t ajaypati/multi-server ./server
+  - docker build -t ajaypati/multi-worker ./worker
+  # login to docker CLI and push this images to dockerHub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push ajaypati/multi-client
+  - docker push ajaypati/multi-nginx
+  - docker push ajaypati/multi-server
+  - docker push ajaypati/multi-worker
