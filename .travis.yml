@@ -4,7 +4,7 @@ services:
 before_install:
   - docker build -t ajaypati/react-test -f ./client/Dockerfile.dev ./client
 script:
-  - docker-run ajaypati/react-test npm test -- --coverage
+  - docker run ajaypati/react-test npm test -- --coverage
 after_success:
   - docker build -t ajaypati/multi-client ./client
   - docker build -t ajaypati/multi-nginx ./nginx
