@@ -1,0 +1,39 @@
+{
+    "AWSEBDOckerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "ajaypati/multi-client",
+            "hostname": "client",
+            "essential": false
+
+        },
+        {
+            "name": "server",
+            "image": "ajaypati/multi-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "ajaypati/multi-worker",
+            "hostname": "worker",
+            "essential": false
+
+        },
+        {
+            "name": "nginx",
+            "image": "ajaypati/multi-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+
+                }
+            ],
+            "links": ["client","server"]
+        }
+    ]
+}
